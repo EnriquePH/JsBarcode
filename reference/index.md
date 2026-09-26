@@ -4,8 +4,13 @@
 
 - [`JsBarcode()`](https://EnriquePH.github.io/JsBarcode/reference/JsBarcode.md)
   : Create a barcode widget
+
+## Formats
+
 - [`barcode_formats`](https://EnriquePH.github.io/JsBarcode/reference/barcode_formats.md)
   : Barcode formats supported by the bundled JsBarcode library
+- [`barcode_format_info`](https://EnriquePH.github.io/JsBarcode/reference/barcode_format_info.md)
+  : Barcode format reference table
 
 ## Shiny
 

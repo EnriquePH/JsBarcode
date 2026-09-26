@@ -65,6 +65,16 @@ One-time setup after the repository is on GitHub:
     sure workflows may write to the repository (the workflow requests
     `contents: write`).
 
+If the site returns 404 although the `pkgdown` workflow succeeded, check
+**Settings → Pages**: a source of “GitHub Actions” ignores the
+`gh-pages` branch. Switch it to “Deploy from a branch”, or from the
+command line:
+
+``` sh
+gh api -X PUT repos/EnriquePH/JsBarcode/pages \
+  -f build_type=legacy -f 'source[branch]=gh-pages' -f 'source[path]=/'
+```
+
 After that, every merge to `main` republishes the site within a few
 minutes. Publishing a GitHub release also rebuilds it, so the News page
 and version number stay in sync.

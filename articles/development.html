@@ -196,6 +196,12 @@ creates the <code>gh-pages</code> branch.</li>
 permissions</strong>, make sure workflows may write to the repository
 (the workflow requests <code>contents: write</code>).</li>
 </ol>
+<p>If the site returns 404 although the <code>pkgdown</code> workflow
+succeeded, check <strong>Settings → Pages</strong>: a source of “GitHub
+Actions” ignores the <code>gh-pages</code> branch. Switch it to “Deploy
+from a branch”, or from the command line:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="ex">gh</span> api <span class="at">-X</span> PUT repos/EnriquePH/JsBarcode/pages <span class="dt">\</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="at">-f</span> build_type=legacy <span class="at">-f</span> <span class="st">'source[branch]=gh-pages'</span> <span class="at">-f</span> <span class="st">'source[path]=/'</span></span></code></pre></div>
 <p>After that, every merge to <code>main</code> republishes the site
 within a few minutes. Publishing a GitHub release also rebuilds it, so
 the News page and version number stay in sync.</p>
@@ -205,9 +211,9 @@ the News page and version number stay in sync.</p>
 </h2>
 <p>Releases are made with <code>scripts/release.sh</code> (also
 available as <code>make release</code>).</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">make</span> release ARGS=--dry-run        <span class="co"># preview every step, change nothing</span></span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">make</span> release                       <span class="co"># release the version in DESCRIPTION</span></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">make</span> release BUMP=patch            <span class="co"># 0.1.0 -&gt; 0.1.1 (also minor, major, X.Y.Z)</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">make</span> release ARGS=--dry-run        <span class="co"># preview every step, change nothing</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">make</span> release                       <span class="co"># release the version in DESCRIPTION</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">make</span> release BUMP=patch            <span class="co"># 0.1.0 -&gt; 0.1.1 (also minor, major, X.Y.Z)</span></span></code></pre></div>
 <p>Between releases, <code>DESCRIPTION</code> holds a development
 version (<code>X.Y.Z.9000</code>) and <code>NEWS.md</code> starts with
 <code># JsBarcode (development version)</code>. Add a bullet there for
@@ -246,8 +252,8 @@ a new development header to NEWS.md, commits and pushes.</li>
 <div class="section level2">
 <h2 id="updating-the-bundled-javascript-library">Updating the bundled JavaScript library<a class="anchor" aria-label="anchor" href="#updating-the-bundled-javascript-library"></a>
 </h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">make</span> update-js            <span class="co"># latest version from npm</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">make</span> update-js JSVER=3.12.3</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">make</span> update-js            <span class="co"># latest version from npm</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">make</span> update-js JSVER=3.12.3</span></code></pre></div>
 <p>The target replaces <code>inst/htmlwidgets/lib/jsbarcode-*</code>,
 updates <code>inst/htmlwidgets/JsBarcode.yaml</code> and the version
 expected by the tests. Afterwards, update <code>README.md</code> and

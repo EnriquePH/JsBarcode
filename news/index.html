@@ -45,8 +45,10 @@
 <li>Bundled JsBarcode updated from 3.8.0 to 3.12.3. Only the minified bundle and its license are vendored (no more bower source tree).</li>
 <li>
 <code><a href="../reference/JsBarcode.html">JsBarcode()</a></code> gains <code>format</code>, <code>bar_width</code>, <code>bar_height</code>, <code>display_value</code>, <code>text</code>, <code>font_size</code>, <code>line_color</code>, <code>background</code>, <code>margin</code> and <code>...</code> for any other JsBarcode option. Arguments after <code>format</code> must be named.</li>
-<li>The widget now actually renders an SVG barcode (the 2017 scaffold only printed the value as text) and shows an inline error for invalid input.</li>
+<li>The widget now actually renders an SVG barcode (the 2017 scaffold only printed the value as text) and shows an inline error for invalid input. Invalid values are detected through JsBarcode’s <code>valid</code> callback; any other JavaScript error is shown with its real message and logged to the console.</li>
 <li>New <code>barcode_formats</code> constant, Shiny demo app, testthat suite and GitHub Actions R CMD check.</li>
+<li>New <code>barcode_format_info</code> data frame describing every format (characters, length, check digit, typical use, valid example), derived from the JsBarcode 3.12.3 validation rules. <code>barcode_formats</code> now comes from it and gains <code>CODE93FullASCII</code>.</li>
+<li>The Shiny demo groups formats by family and shows contextual help plus an example value for the selected format.</li>
 <li>
 <code>Makefile</code> with document/test/check/install/run/site/update-js targets.</li>
 <li>pkgdown documentation site with a “Getting started” vignette and a “Development and CI/CD” article, deployed to <code>gh-pages</code> by GitHub Actions.</li>

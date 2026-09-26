@@ -12,9 +12,17 @@
   other JsBarcode option. Arguments after `format` must be named.
 - The widget now actually renders an SVG barcode (the 2017 scaffold only
   printed the value as text) and shows an inline error for invalid
-  input.
+  input. Invalid values are detected through JsBarcode’s `valid`
+  callback; any other JavaScript error is shown with its real message
+  and logged to the console.
 - New `barcode_formats` constant, Shiny demo app, testthat suite and
   GitHub Actions R CMD check.
+- New `barcode_format_info` data frame describing every format
+  (characters, length, check digit, typical use, valid example), derived
+  from the JsBarcode 3.12.3 validation rules. `barcode_formats` now
+  comes from it and gains `CODE93FullASCII`.
+- The Shiny demo groups formats by family and shows contextual help plus
+  an example value for the selected format.
 - `Makefile` with document/test/check/install/run/site/update-js
   targets.
 - pkgdown documentation site with a “Getting started” vignette and a

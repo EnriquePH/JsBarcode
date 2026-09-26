@@ -36,6 +36,9 @@ JsBarcode(
 
   Barcode symbology, one of
   [barcode_formats](https://EnriquePH.github.io/JsBarcode/reference/barcode_formats.md).
+  See
+  [barcode_format_info](https://EnriquePH.github.io/JsBarcode/reference/barcode_format_info.md)
+  for the values each format accepts.
 
 - ...:
 

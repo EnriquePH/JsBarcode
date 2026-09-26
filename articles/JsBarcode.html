@@ -84,61 +84,257 @@ one, and in Shiny apps.</p>
 <div class="section level2">
 <h2 id="formats">Formats<a class="anchor" aria-label="anchor" href="#formats"></a>
 </h2>
-<p>Pick a symbology with <code>format</code>. All supported values are
-in <code>barcode_formats</code>:</p>
+<p>Pick a symbology with <code>format</code>.
+<code>barcode_format_info</code> describes every supported format: the
+characters it accepts, its length, how the check digit is handled, and a
+valid example value.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">barcode_formats</span></span>
-<span><span class="co">#&gt;  [1] "CODE128"    "CODE128A"   "CODE128B"   "CODE128C"   "EAN13"     </span></span>
-<span><span class="co">#&gt;  [6] "EAN8"       "EAN5"       "EAN2"       "UPC"        "UPCE"      </span></span>
-<span><span class="co">#&gt; [11] "CODE39"     "CODE93"     "ITF"        "ITF14"      "MSI"       </span></span>
-<span><span class="co">#&gt; [16] "MSI10"      "MSI11"      "MSI1010"    "MSI1110"    "pharmacode"</span></span>
-<span><span class="co">#&gt; [21] "codabar"</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">barcode_format_info</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"format"</span>, <span class="st">"name"</span>, <span class="st">"character_set"</span>,</span>
+<span>                                     <span class="st">"length"</span>, <span class="st">"check_digit"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<colgroup>
+<col width="5%">
+<col width="10%">
+<col width="30%">
+<col width="32%">
+<col width="21%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">format</th>
+<th align="left">name</th>
+<th align="left">character_set</th>
+<th align="left">length</th>
+<th align="left">check_digit</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">CODE128</td>
+<td align="left">Code 128 (automatic)</td>
+<td align="left">ASCII characters 0-127</td>
+<td align="left">Variable</td>
+<td align="left">Mod 103, added automatically</td>
+</tr>
+<tr class="even">
+<td align="left">CODE128A</td>
+<td align="left">Code 128 subset A</td>
+<td align="left">Uppercase letters, digits, punctuation and ASCII
+control characters (0-95); no lowercase</td>
+<td align="left">Variable</td>
+<td align="left">Mod 103, added automatically</td>
+</tr>
+<tr class="odd">
+<td align="left">CODE128B</td>
+<td align="left">Code 128 subset B</td>
+<td align="left">Printable ASCII (32-127): upper- and lowercase letters,
+digits, punctuation</td>
+<td align="left">Variable</td>
+<td align="left">Mod 103, added automatically</td>
+</tr>
+<tr class="even">
+<td align="left">CODE128C</td>
+<td align="left">Code 128 subset C</td>
+<td align="left">Digits 0-9</td>
+<td align="left">Even number of digits (encoded in pairs)</td>
+<td align="left">Mod 103, added automatically</td>
+</tr>
+<tr class="odd">
+<td align="left">EAN13</td>
+<td align="left">EAN-13</td>
+<td align="left">Digits 0-9</td>
+<td align="left">12 digits (check digit is added) or 13 digits (check
+digit is verified)</td>
+<td align="left">Mod 10; computed if 12 digits are given, verified if
+13</td>
+</tr>
+<tr class="even">
+<td align="left">EAN8</td>
+<td align="left">EAN-8</td>
+<td align="left">Digits 0-9</td>
+<td align="left">7 digits (check digit is added) or 8 digits (check
+digit is verified)</td>
+<td align="left">Mod 10; computed if 7 digits are given, verified if
+8</td>
+</tr>
+<tr class="odd">
+<td align="left">EAN5</td>
+<td align="left">EAN-5 add-on</td>
+<td align="left">Digits 0-9</td>
+<td align="left">Exactly 5 digits</td>
+<td align="left">None (parity pattern only)</td>
+</tr>
+<tr class="even">
+<td align="left">EAN2</td>
+<td align="left">EAN-2 add-on</td>
+<td align="left">Digits 0-9</td>
+<td align="left">Exactly 2 digits</td>
+<td align="left">None (parity pattern only)</td>
+</tr>
+<tr class="odd">
+<td align="left">UPC</td>
+<td align="left">UPC-A</td>
+<td align="left">Digits 0-9</td>
+<td align="left">11 digits (check digit is added) or 12 digits (check
+digit is verified)</td>
+<td align="left">Mod 10; computed if 11 digits are given, verified if
+12</td>
+</tr>
+<tr class="even">
+<td align="left">UPCE</td>
+<td align="left">UPC-E</td>
+<td align="left">Digits 0-9</td>
+<td align="left">6 digits (number system 0 assumed) or 8 digits (number
+system 0 or 1, 6 digits, check digit)</td>
+<td align="left">Mod 10 of the expanded UPC-A; verified if 8 digits are
+given</td>
+</tr>
+<tr class="odd">
+<td align="left">CODE39</td>
+<td align="left">Code 39</td>
+<td align="left">Uppercase A-Z, digits 0-9, space and - . $ / + %</td>
+<td align="left">Variable</td>
+<td align="left">None by default; optional Mod 43 with
+<code>mod43 = TRUE</code>
+</td>
+</tr>
+<tr class="even">
+<td align="left">CODE93</td>
+<td align="left">Code 93</td>
+<td align="left">Uppercase A-Z, digits 0-9, space and - . $ / + %</td>
+<td align="left">Variable</td>
+<td align="left">Two check characters (C and K), added
+automatically</td>
+</tr>
+<tr class="odd">
+<td align="left">CODE93FullASCII</td>
+<td align="left">Code 93 Full ASCII</td>
+<td align="left">ASCII characters 0-127</td>
+<td align="left">Variable</td>
+<td align="left">Two check characters (C and K), added
+automatically</td>
+</tr>
+<tr class="even">
+<td align="left">ITF</td>
+<td align="left">Interleaved 2 of 5</td>
+<td align="left">Digits 0-9</td>
+<td align="left">Even number of digits</td>
+<td align="left">None</td>
+</tr>
+<tr class="odd">
+<td align="left">ITF14</td>
+<td align="left">ITF-14</td>
+<td align="left">Digits 0-9</td>
+<td align="left">13 digits (check digit is added) or 14 digits (check
+digit is verified)</td>
+<td align="left">Mod 10; computed if 13 digits are given, verified if
+14</td>
+</tr>
+<tr class="even">
+<td align="left">MSI</td>
+<td align="left">MSI Plessey</td>
+<td align="left">Digits 0-9</td>
+<td align="left">Variable</td>
+<td align="left">None</td>
+</tr>
+<tr class="odd">
+<td align="left">MSI10</td>
+<td align="left">MSI Plessey (Mod 10)</td>
+<td align="left">Digits 0-9</td>
+<td align="left">Variable</td>
+<td align="left">One Mod 10 check digit, added automatically</td>
+</tr>
+<tr class="even">
+<td align="left">MSI11</td>
+<td align="left">MSI Plessey (Mod 11)</td>
+<td align="left">Digits 0-9</td>
+<td align="left">Variable</td>
+<td align="left">One Mod 11 check digit, added automatically</td>
+</tr>
+<tr class="odd">
+<td align="left">MSI1010</td>
+<td align="left">MSI Plessey (Mod 10 + Mod 10)</td>
+<td align="left">Digits 0-9</td>
+<td align="left">Variable</td>
+<td align="left">Two Mod 10 check digits, added automatically</td>
+</tr>
+<tr class="even">
+<td align="left">MSI1110</td>
+<td align="left">MSI Plessey (Mod 11 + Mod 10)</td>
+<td align="left">Digits 0-9</td>
+<td align="left">Variable</td>
+<td align="left">Mod 11 then Mod 10 check digits, added
+automatically</td>
+</tr>
+<tr class="odd">
+<td align="left">pharmacode</td>
+<td align="left">Pharmacode</td>
+<td align="left">Digits 0-9</td>
+<td align="left">An integer from 3 to 131070</td>
+<td align="left">None</td>
+</tr>
+<tr class="even">
+<td align="left">codabar</td>
+<td align="left">Codabar</td>
+<td align="left">Digits 0-9 and - $ : / . +, between optional start/stop
+characters A-D</td>
+<td align="left">Variable</td>
+<td align="left">None</td>
+</tr>
+</tbody>
+</table>
+<p>All formats are linear (1D). 2D codes such as QR Code, Data Matrix,
+PDF417 and Aztec are not supported by JsBarcode.</p>
+<p>The <code>example</code> column gives a value that is valid for each
+format:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/JsBarcode.html">JsBarcode</a></span><span class="op">(</span><span class="st">"5901234123457"</span>, format <span class="op">=</span> <span class="st">"EAN13"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">info</span> <span class="op">&lt;-</span> <span class="va">barcode_format_info</span><span class="op">[</span><span class="va">barcode_format_info</span><span class="op">$</span><span class="va">format</span> <span class="op">==</span> <span class="st">"ITF14"</span>, <span class="op">]</span></span>
+<span><span class="fu"><a href="../reference/JsBarcode.html">JsBarcode</a></span><span class="op">(</span><span class="va">info</span><span class="op">$</span><span class="va">example</span>, format <span class="op">=</span> <span class="va">info</span><span class="op">$</span><span class="va">format</span><span class="op">)</span></span></code></pre></div>
 <div id="htmlwidget-e5c8c404fe174e4c81bd" style="width:auto;height:auto;" class="JsBarcode html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e5c8c404fe174e4c81bd">{"x":{"value":"5901234123457","options":{"format":"EAN13","width":2,"height":100,"displayValue":true,"fontSize":20,"lineColor":"#000000","background":"#ffffff","margin":10}},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/JsBarcode.html">JsBarcode</a></span><span class="op">(</span><span class="st">"123456789999"</span>, format <span class="op">=</span> <span class="st">"UPC"</span><span class="op">)</span></span></code></pre></div>
+<script type="application/json" data-for="htmlwidget-e5c8c404fe174e4c81bd">{"x":{"value":"98765432109213","options":{"format":"ITF14","width":2,"height":100,"displayValue":true,"fontSize":20,"lineColor":"#000000","background":"#ffffff","margin":10}},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/JsBarcode.html">JsBarcode</a></span><span class="op">(</span><span class="st">"5901234123457"</span>, format <span class="op">=</span> <span class="st">"EAN13"</span><span class="op">)</span></span></code></pre></div>
 <div id="htmlwidget-36aa3d2a04d42bbc2145" style="width:auto;height:auto;" class="JsBarcode html-widget"></div>
-<script type="application/json" data-for="htmlwidget-36aa3d2a04d42bbc2145">{"x":{"value":"123456789999","options":{"format":"UPC","width":2,"height":100,"displayValue":true,"fontSize":20,"lineColor":"#000000","background":"#ffffff","margin":10}},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/JsBarcode.html">JsBarcode</a></span><span class="op">(</span><span class="st">"CODE39 TEXT"</span>, format <span class="op">=</span> <span class="st">"CODE39"</span><span class="op">)</span></span></code></pre></div>
+<script type="application/json" data-for="htmlwidget-36aa3d2a04d42bbc2145">{"x":{"value":"5901234123457","options":{"format":"EAN13","width":2,"height":100,"displayValue":true,"fontSize":20,"lineColor":"#000000","background":"#ffffff","margin":10}},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/JsBarcode.html">JsBarcode</a></span><span class="op">(</span><span class="st">"123456789999"</span>, format <span class="op">=</span> <span class="st">"UPC"</span><span class="op">)</span></span></code></pre></div>
 <div id="htmlwidget-febe03efa1a2d8d52a86" style="width:auto;height:auto;" class="JsBarcode html-widget"></div>
-<script type="application/json" data-for="htmlwidget-febe03efa1a2d8d52a86">{"x":{"value":"CODE39 TEXT","options":{"format":"CODE39","width":2,"height":100,"displayValue":true,"fontSize":20,"lineColor":"#000000","background":"#ffffff","margin":10}},"evals":[],"jsHooks":[]}</script><p>A value that is not valid for the chosen format produces an inline
-message instead of a barcode:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/JsBarcode.html">JsBarcode</a></span><span class="op">(</span><span class="st">"not a number"</span>, format <span class="op">=</span> <span class="st">"EAN13"</span><span class="op">)</span></span></code></pre></div>
+<script type="application/json" data-for="htmlwidget-febe03efa1a2d8d52a86">{"x":{"value":"123456789999","options":{"format":"UPC","width":2,"height":100,"displayValue":true,"fontSize":20,"lineColor":"#000000","background":"#ffffff","margin":10}},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/JsBarcode.html">JsBarcode</a></span><span class="op">(</span><span class="st">"CODE39 TEXT"</span>, format <span class="op">=</span> <span class="st">"CODE39"</span><span class="op">)</span></span></code></pre></div>
 <div id="htmlwidget-1fb4450895fe099f74a1" style="width:auto;height:auto;" class="JsBarcode html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1fb4450895fe099f74a1">{"x":{"value":"not a number","options":{"format":"EAN13","width":2,"height":100,"displayValue":true,"fontSize":20,"lineColor":"#000000","background":"#ffffff","margin":10}},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-1fb4450895fe099f74a1">{"x":{"value":"CODE39 TEXT","options":{"format":"CODE39","width":2,"height":100,"displayValue":true,"fontSize":20,"lineColor":"#000000","background":"#ffffff","margin":10}},"evals":[],"jsHooks":[]}</script><p>A value that is not valid for the chosen format produces an inline
+message instead of a barcode:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/JsBarcode.html">JsBarcode</a></span><span class="op">(</span><span class="st">"not a number"</span>, format <span class="op">=</span> <span class="st">"EAN13"</span><span class="op">)</span></span></code></pre></div>
+<div id="htmlwidget-10b3b7155e8045a1b2ad" style="width:auto;height:auto;" class="JsBarcode html-widget"></div>
+<script type="application/json" data-for="htmlwidget-10b3b7155e8045a1b2ad">{"x":{"value":"not a number","options":{"format":"EAN13","width":2,"height":100,"displayValue":true,"fontSize":20,"lineColor":"#000000","background":"#ffffff","margin":10}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div class="section level2">
 <h2 id="styling">Styling<a class="anchor" aria-label="anchor" href="#styling"></a>
 </h2>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/JsBarcode.html">JsBarcode</a></span><span class="op">(</span><span class="st">"ABC-123"</span>,</span>
 <span>          bar_width <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>          bar_height <span class="op">=</span> <span class="fl">60</span>,</span>
 <span>          line_color <span class="op">=</span> <span class="st">"#1a4f8b"</span>,</span>
 <span>          background <span class="op">=</span> <span class="st">"#eef3fa"</span>,</span>
 <span>          font_size <span class="op">=</span> <span class="fl">16</span><span class="op">)</span></span></code></pre></div>
-<div id="htmlwidget-10b3b7155e8045a1b2ad" style="width:auto;height:auto;" class="JsBarcode html-widget"></div>
-<script type="application/json" data-for="htmlwidget-10b3b7155e8045a1b2ad">{"x":{"value":"ABC-123","options":{"format":"CODE128","width":3,"height":60,"displayValue":true,"fontSize":16,"lineColor":"#1a4f8b","background":"#eef3fa","margin":10}},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div id="htmlwidget-4018eef1a407a0df6b52" style="width:auto;height:auto;" class="JsBarcode html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4018eef1a407a0df6b52">{"x":{"value":"ABC-123","options":{"format":"CODE128","width":3,"height":60,"displayValue":true,"fontSize":16,"lineColor":"#1a4f8b","background":"#eef3fa","margin":10}},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="../reference/JsBarcode.html">JsBarcode</a></span><span class="op">(</span><span class="st">"NO-TEXT"</span>, display_value <span class="op">=</span> <span class="cn">FALSE</span>, bar_height <span class="op">=</span> <span class="fl">40</span><span class="op">)</span></span></code></pre></div>
-<div id="htmlwidget-4018eef1a407a0df6b52" style="width:auto;height:auto;" class="JsBarcode html-widget"></div>
-<script type="application/json" data-for="htmlwidget-4018eef1a407a0df6b52">{"x":{"value":"NO-TEXT","options":{"format":"CODE128","width":2,"height":40,"displayValue":false,"fontSize":20,"lineColor":"#000000","background":"#ffffff","margin":10}},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/JsBarcode.html">JsBarcode</a></span><span class="op">(</span><span class="st">"id-0042"</span>, text <span class="op">=</span> <span class="st">"Custom label"</span><span class="op">)</span></span></code></pre></div>
 <div id="htmlwidget-5b1b2f4ad92281566982" style="width:auto;height:auto;" class="JsBarcode html-widget"></div>
-<script type="application/json" data-for="htmlwidget-5b1b2f4ad92281566982">{"x":{"value":"id-0042","options":{"format":"CODE128","width":2,"height":100,"displayValue":true,"text":"Custom label","fontSize":20,"lineColor":"#000000","background":"#ffffff","margin":10}},"evals":[],"jsHooks":[]}</script><p>Any other <a href="https://github.com/lindell/JsBarcode/wiki/Options" class="external-link">JsBarcode
+<script type="application/json" data-for="htmlwidget-5b1b2f4ad92281566982">{"x":{"value":"NO-TEXT","options":{"format":"CODE128","width":2,"height":40,"displayValue":false,"fontSize":20,"lineColor":"#000000","background":"#ffffff","margin":10}},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/JsBarcode.html">JsBarcode</a></span><span class="op">(</span><span class="st">"id-0042"</span>, text <span class="op">=</span> <span class="st">"Custom label"</span><span class="op">)</span></span></code></pre></div>
+<div id="htmlwidget-25c3e940e6859592f801" style="width:auto;height:auto;" class="JsBarcode html-widget"></div>
+<script type="application/json" data-for="htmlwidget-25c3e940e6859592f801">{"x":{"value":"id-0042","options":{"format":"CODE128","width":2,"height":100,"displayValue":true,"text":"Custom label","fontSize":20,"lineColor":"#000000","background":"#ffffff","margin":10}},"evals":[],"jsHooks":[]}</script><p>Any other <a href="https://github.com/lindell/JsBarcode/wiki/Options" class="external-link">JsBarcode
 option</a> can be passed through <code>...</code> using its JavaScript
 name:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/JsBarcode.html">JsBarcode</a></span><span class="op">(</span><span class="st">"Top text"</span>, textPosition <span class="op">=</span> <span class="st">"top"</span>, textAlign <span class="op">=</span> <span class="st">"left"</span>, font <span class="op">=</span> <span class="st">"serif"</span><span class="op">)</span></span></code></pre></div>
-<div id="htmlwidget-25c3e940e6859592f801" style="width:auto;height:auto;" class="JsBarcode html-widget"></div>
-<script type="application/json" data-for="htmlwidget-25c3e940e6859592f801">{"x":{"value":"Top text","options":{"format":"CODE128","width":2,"height":100,"displayValue":true,"fontSize":20,"lineColor":"#000000","background":"#ffffff","margin":10,"textPosition":"top","textAlign":"left","font":"serif"}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-3f27c09be0c60bb52829" style="width:auto;height:auto;" class="JsBarcode html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3f27c09be0c60bb52829">{"x":{"value":"Top text","options":{"format":"CODE128","width":2,"height":100,"displayValue":true,"fontSize":20,"lineColor":"#000000","background":"#ffffff","margin":10,"textPosition":"top","textAlign":"left","font":"serif"}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div class="section level2">
 <h2 id="shiny">Shiny<a class="anchor" aria-label="anchor" href="#shiny"></a>
 </h2>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.posit.co/" class="external-link">shiny</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span><span class="fu"><a href="../reference/JsBarcode-shiny.html">JsBarcodeOutput</a></span><span class="op">(</span><span class="st">"code"</span><span class="op">)</span><span class="op">)</span></span>
@@ -147,7 +343,7 @@ name:</p>
 <span><span class="op">}</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></code></pre></div>
 <p>A full demo app ships with the package:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/runApp.html" class="external-link">runApp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"examples/shiny"</span>, package <span class="op">=</span> <span class="st">"JsBarcode"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
