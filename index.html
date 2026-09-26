@@ -104,12 +104,13 @@
 <h2 id="development">Development<a class="anchor" aria-label="anchor" href="#development"></a>
 </h2>
 <p>Common tasks are wrapped in a <code>Makefile</code> (<code>make help</code> lists them):</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">make</span> test      <span class="co"># run the test suite</span></span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">make</span> check     <span class="co"># full R CMD check</span></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">make</span> run       <span class="co"># install and launch the Shiny demo on port 3838</span></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">make</span> site      <span class="co"># build the pkgdown site into docs/</span></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="fu">make</span> update-js <span class="co"># vendor the latest JsBarcode from npm</span></span></code></pre></div>
-<p>CI runs <code>R CMD check</code> on every push and pull request against five configurations: R release on Ubuntu, macOS and Windows, plus R devel and R oldrel-1 on Ubuntu. Every push to <code>main</code> rebuilds the documentation site and deploys it to the <code>gh-pages</code> branch. See the <a href="https://EnriquePH.github.io/JsBarcode/articles/development.html">Development and CI/CD</a> article for details.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">make</span> lint      <span class="co"># lint with lintr (rules in .lintr)</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">make</span> test      <span class="co"># run the test suite</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">make</span> check     <span class="co"># full R CMD check</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">make</span> run       <span class="co"># install and launch the Shiny demo on port 3838</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="fu">make</span> site      <span class="co"># build the pkgdown site into docs/</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="fu">make</span> update-js <span class="co"># vendor the latest JsBarcode from npm</span></span></code></pre></div>
+<p>CI runs <code>R CMD check</code> on every push and pull request against five configurations: R release on Ubuntu, macOS and Windows, plus R devel and R oldrel-1 on Ubuntu. A separate workflow runs <code>lintr</code> and fails on any lint. Every push to <code>main</code> rebuilds the documentation site and deploys it to the <code>gh-pages</code> branch. See the <a href="https://EnriquePH.github.io/JsBarcode/articles/development.html">Development and CI/CD</a> article for details.</p>
 </div>
 <div class="section level2">
 <h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
@@ -153,6 +154,7 @@
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://github.com/EnriquePH/JsBarcode/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/EnriquePH/JsBarcode/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://github.com/EnriquePH/JsBarcode/actions/workflows/lint.yaml" class="external-link"><img src="https://github.com/EnriquePH/JsBarcode/actions/workflows/lint.yaml/badge.svg" alt="lint"></a></li>
 <li><a href="https://github.com/EnriquePH/JsBarcode/actions/workflows/pkgdown.yaml" class="external-link"><img src="https://github.com/EnriquePH/JsBarcode/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a></li>
 <li><a href="https://www.r-project.org/" class="external-link"><img src="https://img.shields.io/badge/R-%E2%89%A5%203.5.0-276DC3?logo=r&amp;logoColor=white" alt="R &gt;= 3.5.0"></a></li>
 <li><a href="LICENSE.html"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a></li>

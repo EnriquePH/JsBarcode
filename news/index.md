@@ -23,8 +23,10 @@
   comes from it and gains `CODE93FullASCII`.
 - The Shiny demo groups formats by family and shows contextual help plus
   an example value for the selected format.
-- `Makefile` with document/test/check/install/run/site/update-js
+- `Makefile` with document/lint/test/check/install/run/site/update-js
   targets.
+- `lintr` configuration (`.lintr`) and a GitHub Actions lint workflow;
+  the package is lint-free.
 - pkgdown documentation site with a “Getting started” vignette and a
   “Development and CI/CD” article, deployed to `gh-pages` by GitHub
   Actions.

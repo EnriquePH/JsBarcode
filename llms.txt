@@ -66,6 +66,7 @@ shiny::runApp(system.file("examples/shiny", package = "JsBarcode"))
 Common tasks are wrapped in a `Makefile` (`make help` lists them):
 
 ``` sh
+make lint      # lint with lintr (rules in .lintr)
 make test      # run the test suite
 make check     # full R CMD check
 make run       # install and launch the Shiny demo on port 3838
@@ -75,8 +76,9 @@ make update-js # vendor the latest JsBarcode from npm
 
 CI runs `R CMD check` on every push and pull request against five
 configurations: R release on Ubuntu, macOS and Windows, plus R devel and
-R oldrel-1 on Ubuntu. Every push to `main` rebuilds the documentation
-site and deploys it to the `gh-pages` branch. See the [Development and
+R oldrel-1 on Ubuntu. A separate workflow runs `lintr` and fails on any
+lint. Every push to `main` rebuilds the documentation site and deploys
+it to the `gh-pages` branch. See the [Development and
 CI/CD](https://EnriquePH.github.io/JsBarcode/articles/development.html)
 article for details.
 

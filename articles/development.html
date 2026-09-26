@@ -92,49 +92,55 @@ is deployed.</p>
 comments</td>
 </tr>
 <tr class="even">
+<td><code>make lint</code></td>
+<td>Lint with lintr using the rules in <code>.lintr</code>; fails on any
+lint</td>
+</tr>
+<tr class="odd">
 <td><code>make test</code></td>
 <td>Run the testthat suite</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>make check</code></td>
 <td>Full <code>R CMD check</code>; fails on any warning</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>make install</code></td>
 <td>Install the package into your local R library</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>make run</code></td>
 <td>Install and launch the Shiny demo on <code>PORT</code> (default
 3838)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>make site</code></td>
 <td>Build this pkgdown site into <code>docs/</code>
 </td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>make site-preview</code></td>
 <td>Open the built site in a browser</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>make update-js</code></td>
 <td>Vendor the latest JsBarcode from npm (<code>JSVER=x.y.z</code> to
 pin)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>make clean</code></td>
 <td>Remove <code>docs/</code>, tarballs and check folders</td>
 </tr>
 </tbody>
 </table>
-<p>Before opening a pull request, run <code>make check</code>. It must
-end with 0 errors and 0 warnings.</p>
+<p>Before opening a pull request, run <code>make lint</code> and
+<code>make check</code>. Lint must report no lints, and check must end
+with 0 errors and 0 warnings.</p>
 </div>
 <div class="section level2">
 <h2 id="continuous-integration">Continuous integration<a class="anchor" aria-label="anchor" href="#continuous-integration"></a>
 </h2>
-<p>Two GitHub Actions workflows live in
+<p>Three GitHub Actions workflows live in
 <code>.github/workflows/</code>.</p>
 <div class="section level3">
 <h3 id="r-cmd-check-yaml">
@@ -155,6 +161,33 @@ the vignette.</li>
 <li>
 <strong>Fails when:</strong> check reports an error or warning in
 any job.</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="lint-yaml">
+<code>lint.yaml</code><a class="anchor" aria-label="anchor" href="#lint-yaml"></a>
+</h3>
+<ul>
+<li>
+<strong>Runs on:</strong> every push to
+<code>main</code>/<code>master</code> and every pull request.</li>
+<li>
+<strong>Does:</strong> runs <code>lintr::lint_package()</code> on
+Ubuntu with <code>LINTR_ERROR_ON_LINT=true</code>.</li>
+<li>
+<strong>Fails when:</strong> lintr reports any lint.</li>
+</ul>
+<p>The rules live in <code>.lintr</code>: the tidyverse defaults, with
+two exceptions.</p>
+<ul>
+<li>The htmlwidgets/Shiny names <code>JsBarcode</code>,
+<code>JsBarcodeOutput</code>, <code>renderJsBarcode</code>,
+<code>elementId</code> and <code>outputId</code> are allowed despite not
+being snake_case, because they follow the htmlwidgets convention and are
+public API.</li>
+<li>
+<code>R/formats.R</code> is exempt from the 80-character line limit,
+because it holds the prose of the format reference table.</li>
 </ul>
 </div>
 <div class="section level3">
