@@ -1,3 +1,5 @@
+# JsBarcode (development version)
+
 # JsBarcode 0.1.0
 
 * Repository reorganised: the package now lives at the repo root; 2017
