@@ -1,0 +1,87 @@
+---
+title: "Getting started with JsBarcode"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting started with JsBarcode}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+```{r setup}
+library(JsBarcode)
+```
+
+`JsBarcode()` turns a value into an SVG barcode widget. Widgets render in the
+RStudio viewer, in HTML documents such as this one, and in Shiny apps.
+
+## Basic usage
+
+The default symbology is CODE128, which accepts any ASCII text.
+
+```{r}
+JsBarcode("Hello world")
+```
+
+## Formats
+
+Pick a symbology with `format`. All supported values are in `barcode_formats`:
+
+```{r}
+barcode_formats
+```
+
+```{r}
+JsBarcode("5901234123457", format = "EAN13")
+JsBarcode("123456789999", format = "UPC")
+JsBarcode("CODE39 TEXT", format = "CODE39")
+```
+
+A value that is not valid for the chosen format produces an inline message
+instead of a barcode:
+
+```{r}
+JsBarcode("not a number", format = "EAN13")
+```
+
+## Styling
+
+```{r}
+JsBarcode("ABC-123",
+          bar_width = 3,
+          bar_height = 60,
+          line_color = "#1a4f8b",
+          background = "#eef3fa",
+          font_size = 16)
+
+JsBarcode("NO-TEXT", display_value = FALSE, bar_height = 40)
+JsBarcode("id-0042", text = "Custom label")
+```
+
+Any other [JsBarcode option](https://github.com/lindell/JsBarcode/wiki/Options)
+can be passed through `...` using its JavaScript name:
+
+```{r}
+JsBarcode("Top text", textPosition = "top", textAlign = "left", font = "serif")
+```
+
+## Shiny
+
+```{r, eval = FALSE}
+library(shiny)
+
+ui <- fluidPage(JsBarcodeOutput("code"))
+server <- function(input, output) {
+  output$code <- renderJsBarcode(JsBarcode("Hello Shiny"))
+}
+shinyApp(ui, server)
+```
+
+A full demo app ships with the package:
+
+```{r, eval = FALSE}
+shiny::runApp(system.file("examples/shiny", package = "JsBarcode"))
+```

@@ -1,0 +1,5 @@
+dependencies:
+  - name: jsbarcode
+    version: 3.12.3
+    src: htmlwidgets/lib/jsbarcode-3.12.3
+    script: JsBarcode.all.min.js

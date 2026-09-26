@@ -1,0 +1,30 @@
+Package: JsBarcode
+Title: Barcode Widgets for R using 'JsBarcode'
+Version: 0.1.0
+Authors@R: c(
+    person("Enrique", "Pérez Herrero", email = "eph.project1500@gmail.com",
+           role = c("aut", "cre")),
+    person("Johan", "Lindell", role = c("ctb", "cph"),
+           comment = "Author of the bundled 'JsBarcode' JavaScript library")
+  )
+Description: An 'htmlwidgets' interface to the 'JsBarcode' JavaScript
+    library. Generates 1D barcodes (CODE128, EAN-13, UPC, CODE39, ITF,
+    MSI, Pharmacode, Codabar and more) as SVG for the 'RStudio' viewer,
+    'R Markdown' / 'Quarto' documents and 'Shiny' applications.
+License: MIT + file LICENSE
+URL: https://EnriquePH.github.io/JsBarcode/, https://github.com/EnriquePH/JsBarcode
+BugReports: https://github.com/EnriquePH/JsBarcode/issues
+Encoding: UTF-8
+Depends: R (>= 3.5.0)
+Imports:
+    htmlwidgets,
+    utils
+Suggests:
+    knitr,
+    rmarkdown,
+    shiny,
+    testthat (>= 3.0.0)
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+Roxygen: list(markdown = TRUE)
+Config/roxygen2/version: 8.1.0

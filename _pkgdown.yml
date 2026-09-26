@@ -1,0 +1,28 @@
+url: https://EnriquePH.github.io/JsBarcode/
+
+template:
+  bootstrap: 5
+
+navbar:
+  structure:
+    left: [intro, reference, articles, news]
+    right: [search, github]
+
+reference:
+  - title: Barcodes
+    contents:
+      - JsBarcode
+      - barcode_formats
+  - title: Shiny
+    contents:
+      - JsBarcode-shiny
+
+articles:
+  - title: Guides
+    navbar: ~
+    contents:
+      - JsBarcode
+  - title: Development
+    navbar: Development
+    contents:
+      - articles/development
