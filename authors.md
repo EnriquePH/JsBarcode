@@ -10,7 +10,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/EnriquePH/JsBarcode/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/EnriquePH/JsBarcode/blob/v0.1.0/DESCRIPTION)
 
 Pérez Herrero E (2026). *JsBarcode: Barcode Widgets for R using
 'JsBarcode'*. R package version 0.1.0,
