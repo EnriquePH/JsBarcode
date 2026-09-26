@@ -8,7 +8,7 @@ PORT   ?= 3838
 JSVER  ?= $(shell curl -s https://registry.npmjs.org/jsbarcode/latest | sed -n 's/.*"version":"\([^"]*\)".*/\1/p')
 
 .DEFAULT_GOAL := help
-.PHONY: help all document test check lint build install run site site-preview update-js release clean
+.PHONY: help all document test check lint build install run run-dev site site-preview update-js release clean
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | \
@@ -34,8 +34,11 @@ build: document ## Build the source tarball
 install: document ## Install the package into the local library
 	$(R) -e 'devtools::install(upgrade = FALSE)'
 
-run: install ## Launch the Shiny demo app (PORT=3838)
-	$(R) -e 'shiny::runApp(system.file("examples/shiny", package = "$(PKG)"), port = $(PORT), launch.browser = FALSE)'
+run: ## Launch the Shiny demo app from the installed package (PORT=3838)
+	scripts/run-app.sh --port $(PORT)
+
+run-dev: ## Launch the Shiny demo app from source, without installing
+	scripts/run-app.sh --dev --port $(PORT)
 
 site: document ## Build the pkgdown site into docs/
 	$(R) -e 'pkgdown::build_site(install = TRUE, new_process = TRUE)'
