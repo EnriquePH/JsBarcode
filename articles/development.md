@@ -42,8 +42,9 @@ Three GitHub Actions workflows live in `.github/workflows/`.
 ### `lint.yaml`
 
 - **Runs on:** every push to `main`/`master` and every pull request.
-- **Does:** runs `lintr::lint_package()` on Ubuntu with
-  `LINTR_ERROR_ON_LINT=true`.
+- **Does:** runs
+  [`lintr::lint_package()`](https://lintr.r-lib.org/reference/lint.html)
+  on Ubuntu with `LINTR_ERROR_ON_LINT=true`.
 - **Fails when:** lintr reports any lint.
 
 The rules live in `.lintr`: the tidyverse defaults, with two exceptions.
