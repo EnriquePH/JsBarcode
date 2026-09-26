@@ -1,99 +1,101 @@
-# PLAN — JsBarcode (paquete R)
+# PLAN — JsBarcode (R package)
 
-Última actualización: 2026-09-26
+Last updated: 2026-09-26
 
-## Objetivo
+## Goal
 
-Convertir el scaffold de 2017 en un paquete R profesional y publicable:
-API limpia, librería JS actual, tests, CI, documentación y, a medio plazo,
-publicación en GitHub (y opcionalmente CRAN / r-universe).
+Turn the 2017 scaffold into a professional, distributable R package: clean
+API, current JS library, tests, CI, documentation, and publication on GitHub,
+r-universe and eventually CRAN.
 
-## Fase 1 — Reorganización y actualización ✅ (2026-09-26)
+## Phase 1 — Reorganisation and update ✅ (2026-09-26)
 
-- [x] La raíz del repo pasa a ser el paquete (antes estaba en `JsBarcode/`).
-- [x] Material de 2017 movido fuera, a `../22-JsBarcode_legacy-2017/`:
-      clon parcheado de `htmlwidgets` 0.9 (solo cambiaba `--allow-root` en bower),
+- [x] The repo root is now the package (it used to live in `JsBarcode/`).
+- [x] 2017 material moved out to `../22-JsBarcode_legacy-2017/`: patched
+      `htmlwidgets` 0.9 clone (only change: `--allow-root` for bower),
       `create-widget.R`, `.Rhistory`, `test.html/.Rhtml`, `figure/`,
-      `test_package.R`, `.bowerrc`, fuentes bower de JsBarcode 3.8.0 y un
-      `snapshot-package-2017.tar` con el paquete original completo.
-- [x] JsBarcode 3.8.0 → **3.12.3**; se vendoriza solo `JsBarcode.all.min.js` + LICENSE
-      (de ~1 MB a ~65 KB).
-- [x] Binding JS reparado: antes solo escribía el texto; ahora dibuja un SVG y
-      muestra un error legible si el valor no es válido para el formato.
-- [x] API nueva: `format`, `bar_width`, `bar_height`, `display_value`, `text`,
-      `font_size`, `line_color`, `background`, `margin`, `...`; constante
-      `barcode_formats`; validación de argumentos.
-- [x] DESCRIPTION real (título, descripción, licencia MIT, autores incl. Johan
-      Lindell como cph de la librería JS), roxygen2 7 con markdown.
-- [x] Tests testthat 3e (26 expectativas), app Shiny de ejemplo, README, NEWS,
-      workflow GitHub Actions `R-CMD-check`, CLAUDE.md (ahora en `.claude/`; este plan en `dev/`).
-- [x] Verificado: `devtools::check()` → 0 errors / 0 warnings / 0 notes;
-      render real en Chromium headless (CODE128 dibuja barras; EAN13 inválido
-      muestra el mensaje de error).
+      `test_package.R`, `.bowerrc`, bower sources of JsBarcode 3.8.0, and
+      `snapshot-package-2017.tar` with the complete original package.
+- [x] JsBarcode 3.8.0 → **3.12.3**; only `JsBarcode.all.min.js` + LICENSE are
+      vendored (from ~1 MB down to ~65 KB).
+- [x] JS binding fixed: it used to print the value as text; it now draws an SVG
+      and shows a readable error when the value is invalid for the format.
+- [x] New API: `format`, `bar_width`, `bar_height`, `display_value`, `text`,
+      `font_size`, `line_color`, `background`, `margin`, `...`;
+      `barcode_formats` constant; argument validation.
+- [x] Real DESCRIPTION (title, description, MIT licence, authors including
+      Johan Lindell as copyright holder of the JS library), roxygen2 markdown.
+- [x] testthat 3e tests, Shiny demo app, README, NEWS, GitHub Actions
+      `R-CMD-check` workflow, CLAUDE.md (in `.claude/`; this plan in `dev/`).
+- [x] Verified: `devtools::check()` → 0 errors / 0 warnings / 0 notes; real
+      rendering in headless Chromium.
 
-## Fase 2 — Control de versiones, CI/CD y documentación ✅ (2026-09-26)
+## Phase 2 — Version control, CI/CD and documentation ✅ (2026-09-26)
 
-- [x] `Makefile` con targets document/test/check/build/install/run/site/update-js/clean.
-- [x] Web pkgdown (`_pkgdown.yml`, vignette *Getting started*, artículo
-      *Development and CI/CD*), desplegada a `gh-pages` por `pkgdown.yaml`.
-- [x] Autor: Enrique Pérez Herrero; URL/BugReports en DESCRIPTION.
-- [x] `scripts/release.sh` + `make release` (tag, GitHub release, bump dev).
-- [x] `git init`, rama `main`, remoto `EnriquePH/JsBarcode`, primer push.
-- [ ] Activar GitHub Pages: Settings → Pages → rama `gh-pages`, carpeta `/`
-      (tras la primera ejecución de `pkgdown.yaml`).
-- [ ] Confirmar que ambos workflows pasan en GitHub (Linux/macOS/Windows).
-- [ ] Primera release: `make release` → v0.1.0.
+- [x] `Makefile` with document/test/check/build/install/run/site/update-js/release/clean targets.
+- [x] pkgdown site (`_pkgdown.yml`, *Getting started* vignette, *Development
+      and CI/CD* article), deployed to `gh-pages` by `pkgdown.yaml`.
+- [x] Author: Enrique Pérez Herrero; URL/BugReports in DESCRIPTION.
+- [x] `scripts/release.sh` + `make release` (tag, GitHub release, dev bump).
+- [x] `git init`, branch `main`, remote `EnriquePH/JsBarcode`, first push.
+- [x] Both workflows green on GitHub (5 R-CMD-check configurations + pkgdown).
+- [x] GitHub Pages serving `gh-pages` / root:
+      <https://EnriquePH.github.io/JsBarcode/>.
 
 ## Roadmap
 
-Principio: cerrar y distribuir cada versión antes de añadir funcionalidad. No
-se añaden renderers canvas/img, npm/bower ni frameworks JS: JsBarcode
-vendorizado + binding htmlwidget pequeño.
+Principle: close and ship each version before adding features. No canvas/img
+renderers, npm/bower or JS frameworks: vendored JsBarcode + a small htmlwidget
+binding.
 
-### v0.1.0 — release (actual)
+### v0.1.0 — release (current)
 
-- [x] Errores JS: entrada inválida (callback `valid`) separada de otros fallos.
-- [x] README describe las 5 configuraciones de CI.
-- [x] Permisos normalizados (644; solo `scripts/release.sh` ejecutable).
-- [x] `barcode_format_info` (22 formatos, reglas de JsBarcode 3.12.3, ejemplo
-      válido verificado en navegador) + ayuda contextual en la app Shiny.
-      Se añade `CODE93FullASCII`.
-- [x] Badge de R en README.
+- [x] JS errors: invalid input (`valid` callback) separated from other failures.
+- [x] README lists the 5 CI configurations.
+- [x] File modes normalised (644; only `scripts/release.sh` executable).
+- [x] `barcode_format_info` (22 formats, JsBarcode 3.12.3 validation rules,
+      valid example verified in a browser) + contextual help in the Shiny app.
+      `CODE93FullASCII` added.
+- [x] R badge in README.
+- [x] Everything in the repo written in English.
 - [ ] `make release` → tag v0.1.0 + GitHub Release.
-- [ ] Publicar en r-universe (`EnriquePH.r-universe.dev`, repo `EnriquePH/EnriquePH.r-universe.dev` con `packages.json`).
-- [ ] Badges de r-universe en README.
+- [ ] Publish on r-universe (`EnriquePH.r-universe.dev`, repo
+      `EnriquePH/EnriquePH.r-universe.dev` with `packages.json`).
+- [ ] r-universe badges in README.
 
-### v0.2.0 — calidad y exportación
+### v0.2.0 — quality and export
 
-- [ ] Test de integración con **chromote**: R → htmlwidget → `JsBarcode.js` →
-      JsBarcode 3.12.3 → SVG; comprobar `<svg>`/`<rect>` y el mensaje de error.
-      `skip_on_cran()` + `skip_if_not_installed("chromote")`; en CI, Chrome disponible.
-- [ ] `validate_barcode(value, format)` → lógico. Implementación mínima en R
-      (dígito de control EAN-13/EAN-8/UPC/ITF-14, charset CODE39/CODE128C/ITF,
-      numérico MSI/pharmacode). Opcional `JsBarcode(..., validate = TRUE)`;
-      no por defecto, para no duplicar la lógica de la librería.
-- [ ] `save_barcode(widget, "file.svg")`: SVG primero (sin dependencias
-      nuevas si es posible; si hace falta ejecutar JS, chromote en Suggests).
-      PNG después, opcional.
-- [ ] Cobertura con `covr` + badge.
+- [ ] **chromote** integration test: R → htmlwidget → `JsBarcode.js` →
+      JsBarcode 3.12.3 → SVG; assert `<svg>`/`<rect>` and the error message.
+      `skip_on_cran()` + `skip_if_not_installed("chromote")`; Chrome is
+      available in CI.
+- [ ] `validate_barcode(value, format)` → logical. Minimal R implementation
+      (check digit for EAN-13/EAN-8/UPC/ITF-14, character sets for
+      CODE39/CODE128C/ITF, numeric MSI/pharmacode), reusing the rules in
+      `barcode_format_info`. Optional `JsBarcode(..., validate = TRUE)`, off by
+      default so the library's logic is not duplicated.
+- [ ] `save_barcode(widget, "file.svg")`: SVG first (no new dependencies if
+      possible; if JS must run, chromote in Suggests). PNG later, optional.
+- [ ] Coverage with `covr` + badge.
 
-### v0.3.0 — hojas de etiquetas
+### v0.3.0 — label sheets
 
-- [ ] `barcode_sheet(values, format, ...)`: widget/HTML con varios códigos;
-      acepta vector o `data.frame` (`code`, `label`). `JsBarcode()` sigue siendo
-      de un solo valor.
-- [ ] Layout imprimible (rejilla, tamaño de etiqueta, CSS `@media print`).
+- [ ] `barcode_sheet(values, format, ...)`: widget/HTML with several codes;
+      accepts a vector or a `data.frame` (`code`, `label`). `JsBarcode()`
+      stays single-valued.
+- [ ] Printable layout (grid, label size, CSS `@media print`).
 
-### 1.0.0 — API estable
+### 1.0.0 — stable API
 
-- [ ] Revisión de nombres/argumentos, deprecaciones si hace falta.
-- [ ] Preparación CRAN: `cran-comments.md`, `urlchecker`, `rhub::rhub_check()`.
+- [ ] Review names/arguments, deprecate where needed.
+- [ ] CRAN preparation: `cran-comments.md`, `urlchecker`, `rhub::rhub_check()`.
 
-## Decisiones tomadas
+## Decisions
 
-- Se mantiene el nombre de la función `JsBarcode()` (compatibilidad con 2017),
-  argumentos en snake_case.
-- `width`/`height` son del contenedor del widget; el tamaño de las barras va en
+- The function keeps the name `JsBarcode()` (compatibility with 2017);
+  arguments are snake_case.
+- `width`/`height` are the widget container; bar size is
   `bar_width`/`bar_height`.
-- Sin bower ni npm: la librería se actualiza con `curl` desde el registry de npm
-  (procedimiento en `.claude/CLAUDE.md`).
+- No bower or npm: the library is updated with `curl` from the npm registry
+  (procedure in `.claude/CLAUDE.md`, automated by `make update-js`).
+- Everything in the repository is written in English.

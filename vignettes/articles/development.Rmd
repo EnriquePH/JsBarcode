@@ -10,7 +10,7 @@ continuous integration (CI) checks, and how the documentation site is deployed.
 Every common task has a `make` target. Run `make help` to list them.
 
 | Command | What it does |
-|---|---|
+| --- | --- |
 | `make document` | Regenerate `man/` and `NAMESPACE` from roxygen comments |
 | `make test` | Run the testthat suite |
 | `make check` | Full `R CMD check`; fails on any warning |
@@ -63,6 +63,15 @@ One-time setup after the repository is on GitHub:
 3. In **Settings → Actions → General → Workflow permissions**, make sure
    workflows may write to the repository (the workflow requests
    `contents: write`).
+
+If the site returns 404 although the `pkgdown` workflow succeeded, check
+**Settings → Pages**: a source of "GitHub Actions" ignores the `gh-pages`
+branch. Switch it to "Deploy from a branch", or from the command line:
+
+```sh
+gh api -X PUT repos/EnriquePH/JsBarcode/pages \
+  -f build_type=legacy -f 'source[branch]=gh-pages' -f 'source[path]=/'
+```
 
 After that, every merge to `main` republishes the site within a few minutes.
 Publishing a GitHub release also rebuilds it, so the News page and version
