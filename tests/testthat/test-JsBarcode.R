@@ -55,7 +55,8 @@ test_that("bundled JavaScript dependency is declared and present", {
   deps <- htmlwidgets::getDependency("JsBarcode", "JsBarcode")
   jsb <- Filter(function(d) d$name == "jsbarcode", deps)[[1]]
   expect_identical(jsb$version, "3.12.3")
-  expect_true(nzchar(system.file(jsb$src$file, jsb$script, package = "JsBarcode")))
+  path <- system.file(jsb$src$file, jsb$script, package = "JsBarcode")
+  expect_true(nzchar(path))
 })
 
 test_that("barcode_formats lists the supported symbologies", {

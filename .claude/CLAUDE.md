@@ -30,12 +30,14 @@ bower sources of JsBarcode 3.8.0) lives outside the repo in
 | `scripts/release.sh` | Release: version, check, tag, push, GitHub release, bump to .9000 (`make release`) |
 | `Makefile` | Tasks: document, test, check, install, run, site, update-js, release, clean |
 | `_pkgdown.yml`, `vignettes/` | Documentation site; `vignettes/articles/development.Rmd` documents CI/CD |
-| `.github/workflows/` | `R-CMD-check.yaml` (CI) and `pkgdown.yaml` (CD to `gh-pages`) |
+| `.github/workflows/` | `R-CMD-check.yaml` and `lint.yaml` (CI), `pkgdown.yaml` (CD to `gh-pages`) |
+| `.lintr` | lintr rules: tidyverse defaults, htmlwidgets names allowed, `R/formats.R` exempt from line length |
 
 ## Commands
 
 ```bash
 make document   # after editing roxygen comments in R/
+make lint       # lintr, rules in .lintr; must report no lints
 make test
 make check      # must end with 0 errors / 0 warnings
 make site       # build the pkgdown site into docs/
@@ -57,6 +59,8 @@ make site       # build the pkgdown site into docs/
   not raised in R. In JS, invalid input is detected via JsBarcode's `valid`
   callback; any other exception is shown with its real message.
 - Every behaviour change: a test in `tests/testthat/` plus a `NEWS.md` entry.
+- Code must pass `make lint`. Fix lints rather than adding exclusions; only add
+  a `.lintr` exclusion for a documented, deliberate exception.
 
 ## Updating the JsBarcode library
 

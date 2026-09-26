@@ -8,19 +8,22 @@ PORT   ?= 3838
 JSVER  ?= $(shell curl -s https://registry.npmjs.org/jsbarcode/latest | sed -n 's/.*"version":"\([^"]*\)".*/\1/p')
 
 .DEFAULT_GOAL := help
-.PHONY: help all document test check build install run site site-preview update-js release clean
+.PHONY: help all document test check lint build install run site site-preview update-js release clean
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | \
 		awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-13s\033[0m %s\n", $$1, $$2}'
 
-all: document test check ## document + test + check
+all: document lint test check ## document + lint + test + check
 
 document: ## Regenerate man/ and NAMESPACE with roxygen2
 	$(R) -e 'devtools::document()'
 
 test: ## Run the testthat suite
 	$(R) -e 'devtools::test(stop_on_failure = TRUE)'
+
+lint: ## Lint the package with lintr (config in .lintr; fails on any lint)
+	LINTR_ERROR_ON_LINT=true $(R) -e 'print(lintr::lint_package())'
 
 check: document ## Full R CMD check (fails on warnings)
 	$(R) -e 'devtools::check(document = FALSE, error_on = "warning")'

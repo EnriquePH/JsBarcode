@@ -1,0 +1,12 @@
+linters: linters_with_defaults(
+    object_name_linter = object_name_linter(
+      styles = c("snake_case", "symbols"),
+      regexes = c(
+        htmlwidgets = "^(JsBarcode|JsBarcodeOutput|renderJsBarcode|elementId|outputId)$"
+      )
+    )
+  )
+exclusions: list(
+    "R/formats.R" = list(line_length_linter = Inf)
+  )
+encoding: "UTF-8"

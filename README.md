@@ -2,6 +2,7 @@
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/EnriquePH/JsBarcode/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/EnriquePH/JsBarcode/actions/workflows/R-CMD-check.yaml)
+[![lint](https://github.com/EnriquePH/JsBarcode/actions/workflows/lint.yaml/badge.svg)](https://github.com/EnriquePH/JsBarcode/actions/workflows/lint.yaml)
 [![pkgdown](https://github.com/EnriquePH/JsBarcode/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/EnriquePH/JsBarcode/actions/workflows/pkgdown.yaml)
 [![R >= 3.5.0](https://img.shields.io/badge/R-%E2%89%A5%203.5.0-276DC3?logo=r&logoColor=white)](https://www.r-project.org/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
@@ -68,6 +69,7 @@ shiny::runApp(system.file("examples/shiny", package = "JsBarcode"))
 Common tasks are wrapped in a `Makefile` (`make help` lists them):
 
 ```sh
+make lint      # lint with lintr (rules in .lintr)
 make test      # run the test suite
 make check     # full R CMD check
 make run       # install and launch the Shiny demo on port 3838
@@ -77,7 +79,7 @@ make update-js # vendor the latest JsBarcode from npm
 
 CI runs `R CMD check` on every push and pull request against five
 configurations: R release on Ubuntu, macOS and Windows, plus R devel and
-R oldrel-1 on Ubuntu. Every push to `main` rebuilds the documentation site and deploys it
+R oldrel-1 on Ubuntu. A separate workflow runs `lintr` and fails on any lint. Every push to `main` rebuilds the documentation site and deploys it
 to the `gh-pages` branch. See the
 [Development and CI/CD](https://EnriquePH.github.io/JsBarcode/articles/development.html)
 article for details.

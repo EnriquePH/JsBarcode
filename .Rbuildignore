@@ -11,3 +11,4 @@
 ^Makefile$
 ^scripts$
 ^vignettes/articles$
+^\.lintr$

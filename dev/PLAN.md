@@ -58,6 +58,7 @@ binding.
       `CODE93FullASCII` added.
 - [x] R badge in README.
 - [x] Everything in the repo written in English.
+- [x] lintr: `.lintr`, `make lint`, `lint.yaml` workflow; 0 lints.
 - [ ] `make release` → tag v0.1.0 + GitHub Release.
 - [ ] Publish on r-universe (`EnriquePH.r-universe.dev`, repo
       `EnriquePH/EnriquePH.r-universe.dev` with `packages.json`).

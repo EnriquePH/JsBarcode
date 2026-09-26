@@ -57,12 +57,14 @@ JsBarcode <- function(value,
   check_number(bar_height, "bar_height")
   check_number(font_size, "font_size")
   check_number(margin, "margin")
-  if (!is.logical(display_value) || length(display_value) != 1L || is.na(display_value)) {
+  if (!is.logical(display_value) || length(display_value) != 1L ||
+        is.na(display_value)) {
     stop("`display_value` must be TRUE or FALSE.", call. = FALSE)
   }
 
   extra <- list(...)
-  if (length(extra) > 0L && (is.null(names(extra)) || any(names(extra) == ""))) {
+  if (length(extra) > 0L &&
+        (is.null(names(extra)) || any(names(extra) == ""))) {
     stop("Arguments passed in `...` must be named.", call. = FALSE)
   }
 
@@ -143,7 +145,8 @@ renderJsBarcode <- function(expr, env = parent.frame(), quoted = FALSE) {
 
 check_number <- function(x, arg) {
   if (!is.numeric(x) || length(x) != 1L || is.na(x) || x < 0) {
-    stop(sprintf("`%s` must be a single non-negative number.", arg), call. = FALSE)
+    stop(sprintf("`%s` must be a single non-negative number.", arg),
+         call. = FALSE)
   }
   invisible(x)
 }

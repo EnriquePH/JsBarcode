@@ -12,6 +12,7 @@ Every common task has a `make` target. Run `make help` to list them.
 | Command | What it does |
 | --- | --- |
 | `make document` | Regenerate `man/` and `NAMESPACE` from roxygen comments |
+| `make lint` | Lint with lintr using the rules in `.lintr`; fails on any lint |
 | `make test` | Run the testthat suite |
 | `make check` | Full `R CMD check`; fails on any warning |
 | `make install` | Install the package into your local R library |
@@ -21,12 +22,12 @@ Every common task has a `make` target. Run `make help` to list them.
 | `make update-js` | Vendor the latest JsBarcode from npm (`JSVER=x.y.z` to pin) |
 | `make clean` | Remove `docs/`, tarballs and check folders |
 
-Before opening a pull request, run `make check`. It must end with
-0 errors and 0 warnings.
+Before opening a pull request, run `make lint` and `make check`. Lint must
+report no lints, and check must end with 0 errors and 0 warnings.
 
 ## Continuous integration
 
-Two GitHub Actions workflows live in `.github/workflows/`.
+Three GitHub Actions workflows live in `.github/workflows/`.
 
 ### `R-CMD-check.yaml`
 
@@ -37,6 +38,21 @@ Two GitHub Actions workflows live in `.github/workflows/`.
   and runs `R CMD check --no-manual`, which includes the test suite and the
   vignette.
 - **Fails when:** check reports an error or warning in any job.
+
+### `lint.yaml`
+
+- **Runs on:** every push to `main`/`master` and every pull request.
+- **Does:** runs `lintr::lint_package()` on Ubuntu with
+  `LINTR_ERROR_ON_LINT=true`.
+- **Fails when:** lintr reports any lint.
+
+The rules live in `.lintr`: the tidyverse defaults, with two exceptions.
+
+- The htmlwidgets/Shiny names `JsBarcode`, `JsBarcodeOutput`,
+  `renderJsBarcode`, `elementId` and `outputId` are allowed despite not being
+  snake_case, because they follow the htmlwidgets convention and are public API.
+- `R/formats.R` is exempt from the 80-character line limit, because it holds
+  the prose of the format reference table.
 
 ### `pkgdown.yaml`
 
