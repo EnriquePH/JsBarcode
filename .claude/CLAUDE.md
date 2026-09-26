@@ -16,7 +16,8 @@ La raíz del repo **es** el paquete. Este fichero vive en `.claude/` y el plan e
 
 | Ruta | Contenido |
 |---|---|
-| `R/JsBarcode.R` | API: `JsBarcode()`, `barcode_formats`, `JsBarcodeOutput()`, `renderJsBarcode()` |
+| `R/JsBarcode.R` | API: `JsBarcode()`, `JsBarcodeOutput()`, `renderJsBarcode()` |
+| `R/formats.R` | `barcode_format_info` (tabla de formatos, fuente única) y `barcode_formats` (derivado) |
 | `inst/htmlwidgets/JsBarcode.js` | Binding JS: crea un `<svg>` y llama a `JsBarcode(svg, value, options)` |
 | `inst/htmlwidgets/JsBarcode.yaml` | Declara la dependencia JS (nombre, versión, ruta) |
 | `inst/htmlwidgets/lib/jsbarcode-<ver>/` | `JsBarcode.all.min.js` + `LICENSE` — solo esos dos ficheros |
@@ -63,7 +64,9 @@ Automático: `make update-js` (o `make update-js JSVER=x.y.z`). Pasos manuales:
    (como `LICENSE`) a `inst/htmlwidgets/lib/jsbarcode-<ver>/`; borrar la carpeta
    de la versión anterior.
 3. Actualizar versión/ruta en `JsBarcode.yaml`, el test de dependencia, README y
-   NEWS. Revisar si `barcode_formats` cambió.
+   NEWS. Revisar `src/barcodes/index.js` y los `valid()` de la nueva versión y
+   actualizar `barcode_format_info` en `R/formats.R` (cada `example` debe
+   renderizar sin error).
 
 ## Entorno
 

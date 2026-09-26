@@ -2,6 +2,7 @@
 
 export(JsBarcode)
 export(JsBarcodeOutput)
+export(barcode_format_info)
 export(barcode_formats)
 export(renderJsBarcode)
 import(htmlwidgets)

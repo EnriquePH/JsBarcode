@@ -24,7 +24,8 @@ JsBarcode(
 \arguments{
 \item{value}{Value to encode. Coerced to a single string.}
 
-\item{format}{Barcode symbology, one of \link{barcode_formats}.}
+\item{format}{Barcode symbology, one of \link{barcode_formats}. See
+\link{barcode_format_info} for the values each format accepts.}
 
 \item{...}{Additional JsBarcode options, passed verbatim using their
 JavaScript (camelCase) names, e.g. \code{textAlign = "left"}, \code{font = "serif"}.

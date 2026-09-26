@@ -3,6 +3,7 @@
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/EnriquePH/JsBarcode/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/EnriquePH/JsBarcode/actions/workflows/R-CMD-check.yaml)
 [![pkgdown](https://github.com/EnriquePH/JsBarcode/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/EnriquePH/JsBarcode/actions/workflows/pkgdown.yaml)
+[![R >= 3.5.0](https://img.shields.io/badge/R-%E2%89%A5%203.5.0-276DC3?logo=r&logoColor=white)](https://www.r-project.org/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
 <!-- badges: end -->
 
@@ -36,7 +37,10 @@ JsBarcode("Label", textAlign = "left", textPosition = "top", flat = TRUE)
 
 Supported formats are listed in `barcode_formats`:
 CODE128 (A/B/C), EAN-13, EAN-8, EAN-5, EAN-2, UPC-A, UPC-E, CODE39, CODE93,
-ITF, ITF-14, MSI (10/11/1010/1110), Pharmacode and Codabar.
+CODE93 Full ASCII, ITF, ITF-14, MSI (10/11/1010/1110), Pharmacode and Codabar.
+`barcode_format_info` describes each one (accepted characters, length, check
+digit, typical use and a valid example). Only linear (1D) barcodes are
+supported; QR Code, Data Matrix, PDF417 and other 2D codes are not.
 
 If a value is not valid for the chosen format (e.g. letters in EAN-13), the
 widget shows an inline error message instead of a barcode.
@@ -71,8 +75,9 @@ make site      # build the pkgdown site into docs/
 make update-js # vendor the latest JsBarcode from npm
 ```
 
-CI runs `R CMD check` on Linux, macOS and Windows for every push and pull
-request. Every push to `main` rebuilds the documentation site and deploys it
+CI runs `R CMD check` on every push and pull request against five
+configurations: R release on Ubuntu, macOS and Windows, plus R devel and
+R oldrel-1 on Ubuntu. Every push to `main` rebuilds the documentation site and deploys it
 to the `gh-pages` branch. See the
 [Development and CI/CD](https://EnriquePH.github.io/JsBarcode/articles/development.html)
 article for details.

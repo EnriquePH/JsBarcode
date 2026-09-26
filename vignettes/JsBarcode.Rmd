@@ -28,10 +28,23 @@ JsBarcode("Hello world")
 
 ## Formats
 
-Pick a symbology with `format`. All supported values are in `barcode_formats`:
+Pick a symbology with `format`. `barcode_format_info` describes every
+supported format: the characters it accepts, its length, how the check digit
+is handled, and a valid example value.
 
 ```{r}
-barcode_formats
+knitr::kable(barcode_format_info[, c("format", "name", "character_set",
+                                     "length", "check_digit")])
+```
+
+All formats are linear (1D). 2D codes such as QR Code, Data Matrix, PDF417 and
+Aztec are not supported by JsBarcode.
+
+The `example` column gives a value that is valid for each format:
+
+```{r}
+info <- barcode_format_info[barcode_format_info$format == "ITF14", ]
+JsBarcode(info$example, format = info$format)
 ```
 
 ```{r}

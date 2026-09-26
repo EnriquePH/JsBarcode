@@ -6,6 +6,16 @@ HTMLWidgets.widget({
 
   factory: function(el, width, height) {
 
+    function showError(text) {
+      el.innerHTML = '';
+      var msg = document.createElement('div');
+      msg.className = 'jsbarcode-error';
+      msg.style.color = '#b00020';
+      msg.style.fontFamily = 'monospace';
+      msg.textContent = text;
+      el.appendChild(msg);
+    }
+
     return {
 
       renderValue: function(x) {
@@ -16,19 +26,25 @@ HTMLWidgets.widget({
         svg.style.height = 'auto';
         el.appendChild(svg);
 
+        // With a `valid` callback, JsBarcode reports invalid input through it
+        // instead of throwing, so any exception below is a different failure.
+        var isValid = true;
+        var options = Object.assign({}, x.options, {
+          valid: function(valid) { isValid = valid; }
+        });
+
         try {
-          JsBarcode(svg, x.value, x.options);
+          JsBarcode(svg, x.value, options);
         } catch (e) {
-          el.innerHTML = '';
-          var msg = document.createElement('div');
-          msg.className = 'jsbarcode-error';
-          msg.style.color = '#b00020';
-          msg.style.fontFamily = 'monospace';
+          if (window.console) console.error('JsBarcode:', e);
+          showError('JsBarcode error: ' + (e && e.message ? e.message : e));
+          return;
+        }
+
+        if (!isValid) {
           // The library's own message names minified classes, so build ours.
-          msg.textContent = 'JsBarcode: "' + x.value + '" is not a valid ' +
-            x.options.format + ' value';
-          if (window.console) console.warn('JsBarcode:', e);
-          el.appendChild(msg);
+          showError('JsBarcode: "' + x.value + '" is not a valid ' +
+            x.options.format + ' value');
         }
       },
 

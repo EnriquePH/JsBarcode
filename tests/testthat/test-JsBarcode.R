@@ -59,8 +59,30 @@ test_that("bundled JavaScript dependency is declared and present", {
 })
 
 test_that("barcode_formats lists the supported symbologies", {
-  expect_true(all(c("CODE128", "EAN13", "UPC", "CODE39", "pharmacode") %in% barcode_formats))
+  expect_true(all(c("CODE128", "EAN13", "UPC", "CODE39", "CODE93FullASCII",
+                    "pharmacode") %in% barcode_formats))
   expect_false(anyDuplicated(barcode_formats) > 0)
+})
+
+test_that("barcode_format_info has one complete row per format", {
+  expect_s3_class(barcode_format_info, "data.frame")
+  expect_identical(barcode_format_info$format, barcode_formats)
+  expect_named(barcode_format_info, c(
+    "format", "name", "family", "type", "character_set", "length",
+    "check_digit", "description", "typical_use", "example"
+  ))
+  expect_true(all(vapply(barcode_format_info, is.character, logical(1))))
+  expect_false(any(is.na(as.matrix(barcode_format_info))))
+  expect_false(any(as.matrix(barcode_format_info) == ""))
+  expect_true(all(barcode_format_info$type %in% c("numeric", "alphanumeric")))
+})
+
+test_that("every format example builds a widget", {
+  for (i in seq_len(nrow(barcode_format_info))) {
+    f <- barcode_format_info[i, ]
+    w <- JsBarcode(f$example, format = f$format)
+    expect_identical(w$x$options$format, f$format)
+  }
 })
 
 test_that("Shiny bindings are created", {

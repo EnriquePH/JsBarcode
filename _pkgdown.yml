@@ -12,7 +12,10 @@ reference:
   - title: Barcodes
     contents:
       - JsBarcode
+  - title: Formats
+    contents:
       - barcode_formats
+      - barcode_format_info
   - title: Shiny
     contents:
       - JsBarcode-shiny

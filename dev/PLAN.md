@@ -44,26 +44,49 @@ publicación en GitHub (y opcionalmente CRAN / r-universe).
 - [ ] Confirmar que ambos workflows pasan en GitHub (Linux/macOS/Windows).
 - [ ] Primera release: `make release` → v0.1.0.
 
-## Fase 3 — Funcionalidad
+## Roadmap
 
-- [ ] Vectorización: `JsBarcode(c("A","B","C"))` → varios códigos en un widget
-      (o helper `barcode_sheet()` para etiquetas imprimibles).
-- [ ] Exportar a fichero: `save_barcode(x, "code.svg" | "code.png")`
-      (SVG vía `saveWidget` + extracción; PNG con `webshot2`/`chromote`).
-- [ ] Renderer `canvas`/`img` opcional (`renderer = c("svg","canvas","img")`).
-- [ ] Validación de valores en R para EAN/UPC (dígito de control) para dar el
-      error en R antes de llegar al navegador.
-- [ ] Soporte Quarto/R Markdown estático probado (vignette).
+Principio: cerrar y distribuir cada versión antes de añadir funcionalidad. No
+se añaden renderers canvas/img, npm/bower ni frameworks JS: JsBarcode
+vendorizado + binding htmlwidget pequeño.
 
-## Fase 4 — Calidad y documentación
+### v0.1.0 — release (actual)
 
+- [x] Errores JS: entrada inválida (callback `valid`) separada de otros fallos.
+- [x] README describe las 5 configuraciones de CI.
+- [x] Permisos normalizados (644; solo `scripts/release.sh` ejecutable).
+- [x] `barcode_format_info` (22 formatos, reglas de JsBarcode 3.12.3, ejemplo
+      válido verificado en navegador) + ayuda contextual en la app Shiny.
+      Se añade `CODE93FullASCII`.
+- [x] Badge de R en README.
+- [ ] `make release` → tag v0.1.0 + GitHub Release.
+- [ ] Publicar en r-universe (`EnriquePH.r-universe.dev`, repo `EnriquePH/EnriquePH.r-universe.dev` con `packages.json`).
+- [ ] Badges de r-universe en README.
+
+### v0.2.0 — calidad y exportación
+
+- [ ] Test de integración con **chromote**: R → htmlwidget → `JsBarcode.js` →
+      JsBarcode 3.12.3 → SVG; comprobar `<svg>`/`<rect>` y el mensaje de error.
+      `skip_on_cran()` + `skip_if_not_installed("chromote")`; en CI, Chrome disponible.
+- [ ] `validate_barcode(value, format)` → lógico. Implementación mínima en R
+      (dígito de control EAN-13/EAN-8/UPC/ITF-14, charset CODE39/CODE128C/ITF,
+      numérico MSI/pharmacode). Opcional `JsBarcode(..., validate = TRUE)`;
+      no por defecto, para no duplicar la lógica de la librería.
+- [ ] `save_barcode(widget, "file.svg")`: SVG primero (sin dependencias
+      nuevas si es posible; si hace falta ejecutar JS, chromote en Suggests).
+      PNG después, opcional.
 - [ ] Cobertura con `covr` + badge.
-- [ ] Test JS de render (chromote) en CI, no solo tests del payload R.
-- [ ] `lintr`/`styler` en CI.
 
-## Fase 5 — Distribución (opcional)
+### v0.3.0 — hojas de etiquetas
 
-- [ ] r-universe.
+- [ ] `barcode_sheet(values, format, ...)`: widget/HTML con varios códigos;
+      acepta vector o `data.frame` (`code`, `label`). `JsBarcode()` sigue siendo
+      de un solo valor.
+- [ ] Layout imprimible (rejilla, tamaño de etiqueta, CSS `@media print`).
+
+### 1.0.0 — API estable
+
+- [ ] Revisión de nombres/argumentos, deprecaciones si hace falta.
 - [ ] Preparación CRAN: `cran-comments.md`, `urlchecker`, `rhub::rhub_check()`.
 
 ## Decisiones tomadas

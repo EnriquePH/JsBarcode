@@ -1,19 +1,3 @@
-#' Barcode formats supported by the bundled JsBarcode library
-#'
-#' Character vector with every symbology accepted by the `format` argument of
-#' [JsBarcode()].
-#'
-#' @format A character vector.
-#' @export
-barcode_formats <- c(
-  "CODE128", "CODE128A", "CODE128B", "CODE128C",
-  "EAN13", "EAN8", "EAN5", "EAN2", "UPC", "UPCE",
-  "CODE39", "CODE93",
-  "ITF", "ITF14",
-  "MSI", "MSI10", "MSI11", "MSI1010", "MSI1110",
-  "pharmacode", "codabar"
-)
-
 #' Create a barcode widget
 #'
 #' Renders a barcode as an SVG using the
@@ -22,7 +6,8 @@ barcode_formats <- c(
 #' apps.
 #'
 #' @param value Value to encode. Coerced to a single string.
-#' @param format Barcode symbology, one of [barcode_formats].
+#' @param format Barcode symbology, one of [barcode_formats]. See
+#'   [barcode_format_info] for the values each format accepts.
 #' @param ... Additional JsBarcode options, passed verbatim using their
 #'   JavaScript (camelCase) names, e.g. `textAlign = "left"`, `font = "serif"`.
 #'   See <https://github.com/lindell/JsBarcode/wiki/Options>. Arguments after
