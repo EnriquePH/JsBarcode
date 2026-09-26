@@ -110,24 +110,29 @@ lint</td>
 </tr>
 <tr class="even">
 <td><code>make run</code></td>
-<td>Install and launch the Shiny demo on <code>PORT</code> (default
-3838)</td>
+<td>Launch the Shiny demo on <code>PORT</code> (default 3838),
+installing the package first if the source is newer</td>
 </tr>
 <tr class="odd">
+<td><code>make run-dev</code></td>
+<td>Launch the Shiny demo from source with
+<code><a href="https://pkgload.r-lib.org/reference/load_all.html" class="external-link">pkgload::load_all()</a></code>, no install</td>
+</tr>
+<tr class="even">
 <td><code>make site</code></td>
 <td>Build this pkgdown site into <code>docs/</code>
 </td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>make site-preview</code></td>
 <td>Open the built site in a browser</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>make update-js</code></td>
 <td>Vendor the latest JsBarcode from npm (<code>JSVER=x.y.z</code> to
 pin)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>make clean</code></td>
 <td>Remove <code>docs/</code>, tarballs and check folders</td>
 </tr>
@@ -136,6 +141,24 @@ pin)</td>
 <p>Before opening a pull request, run <code>make lint</code> and
 <code>make check</code>. Lint must report no lints, and check must end
 with 0 errors and 0 warnings.</p>
+<div class="section level3">
+<h3 id="launching-the-demo-app">Launching the demo app<a class="anchor" aria-label="anchor" href="#launching-the-demo-app"></a>
+</h3>
+<p><code>make run</code> and <code>make run-dev</code> call
+<code>scripts/run-app.sh</code>, which you can also use directly:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="ex">scripts/run-app.sh</span> <span class="pp">[--</span><span class="ss">dev</span><span class="pp">]</span> [--port N] [--host H] <span class="pp">[--</span><span class="ss">browser</span><span class="pp">]</span></span></code></pre></div>
+<ul>
+<li>
+<code>--dev</code> runs from the source tree, so edits to
+<code>R/</code> or <code>inst/</code> show up after a restart without
+reinstalling.</li>
+<li>
+<code>--host 0.0.0.0</code> makes the app reachable from other
+machines on the network.</li>
+<li>The script stops early with a clear message if the port is already
+in use.</li>
+</ul>
+</div>
 </div>
 <div class="section level2">
 <h2 id="continuous-integration">Continuous integration<a class="anchor" aria-label="anchor" href="#continuous-integration"></a>
@@ -233,8 +256,8 @@ permissions</strong>, make sure workflows may write to the repository
 succeeded, check <strong>Settings → Pages</strong>: a source of “GitHub
 Actions” ignores the <code>gh-pages</code> branch. Switch it to “Deploy
 from a branch”, or from the command line:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="ex">gh</span> api <span class="at">-X</span> PUT repos/EnriquePH/JsBarcode/pages <span class="dt">\</span></span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="at">-f</span> build_type=legacy <span class="at">-f</span> <span class="st">'source[branch]=gh-pages'</span> <span class="at">-f</span> <span class="st">'source[path]=/'</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="ex">gh</span> api <span class="at">-X</span> PUT repos/EnriquePH/JsBarcode/pages <span class="dt">\</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="at">-f</span> build_type=legacy <span class="at">-f</span> <span class="st">'source[branch]=gh-pages'</span> <span class="at">-f</span> <span class="st">'source[path]=/'</span></span></code></pre></div>
 <p>After that, every merge to <code>main</code> republishes the site
 within a few minutes. Publishing a GitHub release also rebuilds it, so
 the News page and version number stay in sync.</p>
@@ -244,9 +267,9 @@ the News page and version number stay in sync.</p>
 </h2>
 <p>Releases are made with <code>scripts/release.sh</code> (also
 available as <code>make release</code>).</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">make</span> release ARGS=--dry-run        <span class="co"># preview every step, change nothing</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">make</span> release                       <span class="co"># release the version in DESCRIPTION</span></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">make</span> release BUMP=patch            <span class="co"># 0.1.0 -&gt; 0.1.1 (also minor, major, X.Y.Z)</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">make</span> release ARGS=--dry-run        <span class="co"># preview every step, change nothing</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">make</span> release                       <span class="co"># release the version in DESCRIPTION</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">make</span> release BUMP=patch            <span class="co"># 0.1.0 -&gt; 0.1.1 (also minor, major, X.Y.Z)</span></span></code></pre></div>
 <p>Between releases, <code>DESCRIPTION</code> holds a development
 version (<code>X.Y.Z.9000</code>) and <code>NEWS.md</code> starts with
 <code># JsBarcode (development version)</code>. Add a bullet there for
@@ -285,8 +308,8 @@ a new development header to NEWS.md, commits and pushes.</li>
 <div class="section level2">
 <h2 id="updating-the-bundled-javascript-library">Updating the bundled JavaScript library<a class="anchor" aria-label="anchor" href="#updating-the-bundled-javascript-library"></a>
 </h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">make</span> update-js            <span class="co"># latest version from npm</span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">make</span> update-js JSVER=3.12.3</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">make</span> update-js            <span class="co"># latest version from npm</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">make</span> update-js JSVER=3.12.3</span></code></pre></div>
 <p>The target replaces <code>inst/htmlwidgets/lib/jsbarcode-*</code>,
 updates <code>inst/htmlwidgets/JsBarcode.yaml</code> and the version
 expected by the tests. Afterwards, update <code>README.md</code> and

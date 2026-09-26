@@ -2,6 +2,10 @@
 
 ## JsBarcode (development version)
 
+- `scripts/run-app.sh` launches the Shiny demo: from the installed
+  package (reinstalling when the source is newer) or from source with
+  `--dev`; also `make run` / `make run-dev`.
+
 ## JsBarcode 0.1.0
 
 - Repository reorganised: the package now lives at the repo root; 2017

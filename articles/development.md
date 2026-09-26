@@ -15,7 +15,8 @@ Every common task has a `make` target. Run `make help` to list them.
 | `make test` | Run the testthat suite |
 | `make check` | Full `R CMD check`; fails on any warning |
 | `make install` | Install the package into your local R library |
-| `make run` | Install and launch the Shiny demo on `PORT` (default 3838) |
+| `make run` | Launch the Shiny demo on `PORT` (default 3838), installing the package first if the source is newer |
+| `make run-dev` | Launch the Shiny demo from source with [`pkgload::load_all()`](https://pkgload.r-lib.org/reference/load_all.html), no install |
 | `make site` | Build this pkgdown site into `docs/` |
 | `make site-preview` | Open the built site in a browser |
 | `make update-js` | Vendor the latest JsBarcode from npm (`JSVER=x.y.z` to pin) |
@@ -23,6 +24,22 @@ Every common task has a `make` target. Run `make help` to list them.
 
 Before opening a pull request, run `make lint` and `make check`. Lint
 must report no lints, and check must end with 0 errors and 0 warnings.
+
+### Launching the demo app
+
+`make run` and `make run-dev` call `scripts/run-app.sh`, which you can
+also use directly:
+
+``` sh
+scripts/run-app.sh [--dev] [--port N] [--host H] [--browser]
+```
+
+- `--dev` runs from the source tree, so edits to `R/` or `inst/` show up
+  after a restart without reinstalling.
+- `--host 0.0.0.0` makes the app reachable from other machines on the
+  network.
+- The script stops early with a clear message if the port is already in
+  use.
 
 ## Continuous integration
 

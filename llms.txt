@@ -61,6 +61,14 @@ A complete demo ships with the package:
 shiny::runApp(system.file("examples/shiny", package = "JsBarcode"))
 ```
 
+From a clone of the repository:
+
+``` sh
+scripts/run-app.sh            # installed package (reinstalls if the source is newer)
+scripts/run-app.sh --dev      # straight from source, no install
+scripts/run-app.sh --port 4000 --browser
+```
+
 ## Development
 
 Common tasks are wrapped in a `Makefile` (`make help` lists them):
@@ -69,7 +77,7 @@ Common tasks are wrapped in a `Makefile` (`make help` lists them):
 make lint      # lint with lintr (rules in .lintr)
 make test      # run the test suite
 make check     # full R CMD check
-make run       # install and launch the Shiny demo on port 3838
+make run       # launch the Shiny demo on port 3838 (make run-dev: from source)
 make site      # build the pkgdown site into docs/
 make update-js # vendor the latest JsBarcode from npm
 ```
