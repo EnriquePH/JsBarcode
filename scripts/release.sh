@@ -13,9 +13,13 @@
 # The published release triggers .github/workflows/pkgdown.yaml, which
 # redeploys the documentation site to gh-pages.
 
+# Re-run under bash when started as `sh script.sh` (dash lacks [[ ]]).
+if [ -z "${BASH_VERSION:-}" ]; then exec bash "$0" "$@"; fi
+
 set -euo pipefail
 
-cd "$(dirname "$0")/.."
+SELF="$(cd "$(dirname "$0")" && pwd)/$(basename "$0")"
+cd "$(dirname "$SELF")/.."
 
 BUMP="current"
 DRY_RUN=0
@@ -24,7 +28,7 @@ for arg in "$@"; do
   case "$arg" in
     --dry-run) DRY_RUN=1 ;;
     --yes|-y) ASSUME_YES=1 ;;
-    -h|--help) sed -n '2,15p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
+    -h|--help) sed -n '2,15p' "$SELF" | sed 's/^# \{0,1\}//'; exit 0 ;;
     current|patch|minor|major) BUMP="$arg" ;;
     [0-9]*.[0-9]*.[0-9]*) BUMP="$arg" ;;
     *) echo "Unknown argument: $arg" >&2; exit 2 ;;

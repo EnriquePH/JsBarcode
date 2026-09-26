@@ -12,9 +12,13 @@
 # (re)installed first when it is missing or older than the source version.
 # Stop the app with Ctrl+C.
 
+# Re-run under bash when started as `sh script.sh` (dash lacks [[ ]]).
+if [ -z "${BASH_VERSION:-}" ]; then exec bash "$0" "$@"; fi
+
 set -euo pipefail
 
-cd "$(dirname "$0")/.."
+SELF="$(cd "$(dirname "$0")" && pwd)/$(basename "$0")"
+cd "$(dirname "$SELF")/.."
 
 DEV=0
 PORT="${PORT:-3838}"
@@ -27,7 +31,7 @@ while [[ $# -gt 0 ]]; do
     --port) PORT="${2:?--port needs a value}"; shift ;;
     --host) HOST="${2:?--host needs a value}"; shift ;;
     --browser) BROWSER="TRUE" ;;
-    -h|--help) sed -n '2,13p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
+    -h|--help) sed -n '2,13p' "$SELF" | sed 's/^# \{0,1\}//'; exit 0 ;;
     *) echo "Unknown argument: $1 (see --help)" >&2; exit 2 ;;
   esac
   shift

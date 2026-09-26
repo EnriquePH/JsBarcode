@@ -1,5 +1,8 @@
 # JsBarcode (development version)
 
+* Hex logo (`man/figures/logo.svg`): "JsBarcode" encoded as CODE128 by the
+  bundled library. Shown in the README and on the pkgdown site.
+
 * `scripts/run-app.sh` launches the Shiny demo: from the installed package
   (reinstalling when the source is newer) or from source with `--dev`; also
   `make run` / `make run-dev`.

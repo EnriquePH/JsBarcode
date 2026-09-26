@@ -1,4 +1,4 @@
-# JsBarcode
+# JsBarcode <img src="man/figures/logo.svg" align="right" height="139" alt="JsBarcode logo: a CODE128 barcode on a blue hexagon" />
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/EnriquePH/JsBarcode/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/EnriquePH/JsBarcode/actions/workflows/R-CMD-check.yaml)
