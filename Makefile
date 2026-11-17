@@ -4,7 +4,7 @@
 R      ?= Rscript
 PKG    := $(shell sed -n 's/^Package: //p' DESCRIPTION)
 VER    := $(shell sed -n 's/^Version: //p' DESCRIPTION)
-PORT   ?= 3838
+PORT   ?= 8208
 JSVER  ?= $(shell curl -s https://registry.npmjs.org/jsbarcode/latest | sed -n 's/.*"version":"\([^"]*\)".*/\1/p')
 
 .DEFAULT_GOAL := help
@@ -34,7 +34,7 @@ build: document ## Build the source tarball
 install: document ## Install the package into the local library
 	$(R) -e 'devtools::install(upgrade = FALSE)'
 
-run: ## Launch the Shiny demo app from the installed package (PORT=3838)
+run: ## Launch the Shiny demo app from the installed package (PORT=8208)
 	scripts/run-app.sh --port $(PORT)
 
 run-dev: ## Launch the Shiny demo app from source, without installing

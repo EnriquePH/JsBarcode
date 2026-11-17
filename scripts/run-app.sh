@@ -4,7 +4,7 @@
 # Usage: scripts/run-app.sh [--dev] [--port N] [--host H] [--browser]
 #
 #   --dev        run from the source tree (pkgload::load_all), no install
-#   --port N     port to listen on (default 3838, or $PORT)
+#   --port N     port to listen on (default 8208, or $PORT)
 #   --host H     interface to bind (default 127.0.0.1; 0.0.0.0 for the LAN)
 #   --browser    open the app in the default browser
 #
@@ -21,7 +21,7 @@ SELF="$(cd "$(dirname "$0")" && pwd)/$(basename "$0")"
 cd "$(dirname "$SELF")/.."
 
 DEV=0
-PORT="${PORT:-3838}"
+PORT="${PORT:-8208}"
 HOST="127.0.0.1"
 BROWSER="FALSE"
 

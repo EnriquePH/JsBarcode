@@ -80,7 +80,7 @@ Common tasks are wrapped in a `Makefile` (`make help` lists them):
 make lint      # lint with lintr (rules in .lintr)
 make test      # run the test suite
 make check     # full R CMD check
-make run       # launch the Shiny demo on port 3838 (make run-dev: from source)
+make run       # launch the Shiny demo on port 8208 (make run-dev: from source)
 make site      # build the pkgdown site into docs/
 make update-js # vendor the latest JsBarcode from npm
 ```
