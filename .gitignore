@@ -6,3 +6,6 @@
 *.Rcheck/
 docs/
 inst/doc
+# Working notes, kept on disk only
+.claude/
+dev/PLAN.md
